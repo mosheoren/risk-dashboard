@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escalation Dashboard</title>
+<style>
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:#0b1220;
+  color:white;
+  padding:20px;
+}
+
+h1{
+  font-size:22px;
+  margin-bottom:5px;
+}
+
+.small{
+  color:rgba(255,255,255,0.6);
+  font-size:13px;
+  margin-bottom:20px;
+}
+
+.card{
+  background:rgba(255,255,255,0.08);
+  padding:20px;
+  border-radius:16px;
+}
+
+.big{
+  font-size:42px;
+  font-weight:bold;
+}
+
+.bar{
+  height:12px;
+  background:#222;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:15px;
+}
+
+.fill{
+  height:100%;
+  background:linear-gradient(90deg,#7c3aed,#3b82f6);
+  width:0%;
+}
+</style>
+</head>
+<body>
+
+<h1>Geopolitical Escalation Dashboard</h1>
+<div class="small">Phone demo version • Public indicator index</div>
+
+<div class="card">
+  <div class="big" id="score">--</div>
+  <div id="label"></div>
+  <div class="bar">
+    <div class="fill" id="fill"></div>
+  </div>
+</div>
+
+<script>
+function random(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+var score = random(10,90);
+document.getElementById("score").innerHTML = score + "/100";
+
+var label = "Low";
+if(score > 25) label = "Guarded";
+if(score > 50) label = "Elevated";
+if(score > 75) label = "High";
+
+document.getElementById("label").innerHTML = label;
+document.getElementById("fill").style.width = score + "%";
+</script>
+
+</body>
+</html>
