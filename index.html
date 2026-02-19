@@ -2,81 +2,162 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Escalation Dashboard</title>
+<title>Geopolitical Tension Dashboard</title>
 <style>
-body{
-  margin:0;
-  font-family:sans-serif;
-  background:#0b1220;
-  color:white;
-  padding:20px;
-}
-
-h1{
-  font-size:22px;
-  margin-bottom:5px;
-}
-
-.small{
-  color:rgba(255,255,255,0.6);
-  font-size:13px;
-  margin-bottom:20px;
-}
-
-.card{
-  background:rgba(255,255,255,0.08);
-  padding:20px;
-  border-radius:16px;
-}
-
-.big{
-  font-size:42px;
-  font-weight:bold;
-}
-
-.bar{
-  height:12px;
-  background:#222;
-  border-radius:10px;
-  overflow:hidden;
-  margin-top:15px;
-}
-
-.fill{
-  height:100%;
-  background:linear-gradient(90deg,#7c3aed,#3b82f6);
-  width:0%;
-}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:#0b1220;color:rgba(255,255,255,.92);padding:16px}
+  h1{font-size:22px;margin:0}
+  .small{color:rgba(255,255,255,.6);font-size:13px;margin-top:6px}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+  .card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:14px;border-radius:16px}
+  .row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .title{font-weight:900}
+  .muted{color:rgba(255,255,255,.6);font-size:12px;margin-top:4px;line-height:1.3}
+  .big{font-size:44px;font-weight:950;letter-spacing:-1px;line-height:1}
+  .bar{height:12px;background:rgba(255,255,255,.10);border-radius:999px;overflow:hidden;margin-top:12px}
+  .fill{height:100%;width:0%;background:linear-gradient(90deg,#7c3aed,#3b82f6)}
+  .pill{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06)}
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tile{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:12px}
+  .tval{font-size:18px;font-weight:950;margin-top:6px}
+  .btn{appearance:none;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:rgba(255,255,255,.92);padding:10px 12px;border-radius:12px;font-weight:900}
+  .btn:active{transform:scale(.99)}
+  .list{margin:8px 0 0 0;padding-left:18px;color:rgba(255,255,255,.78);font-size:13px;line-height:1.4}
 </style>
 </head>
 <body>
 
-<h1>Geopolitical Escalation Dashboard</h1>
-<div class="small">Phone demo version • Public indicator index</div>
-
-<div class="card">
-  <div class="big" id="score">--</div>
-  <div id="label"></div>
-  <div class="bar">
-    <div class="fill" id="fill"></div>
+<div class="row">
+  <div>
+    <h1>Geopolitical Tension Dashboard</h1>
+    <div class="small">One page • many indicators • phone friendly</div>
   </div>
+  <button class="btn" onclick="regen()">Refresh</button>
+</div>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <div class="title">Tension Index</div>
+        <div class="muted">0–100 • explainable public-data score</div>
+      </div>
+      <div class="pill" id="label">--</div>
+    </div>
+
+    <div style="margin-top:10px" class="big">
+      <span id="score">--</span><span style="font-size:16px;font-weight:900;color:rgba(255,255,255,.6)">/100</span>
+    </div>
+
+    <div class="bar"><div class="fill" id="fill"></div></div>
+    <div class="muted" style="margin-top:10px">
+      This is not a prediction of attacks. It’s a public-data tension monitor.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="title">Indicators</div>
+    <div class="muted">Demo now • later we can connect real public sources.</div>
+
+    <div style="margin-top:10px" class="tiles">
+      <div class="tile">
+        <div class="title">News volume</div>
+        <div class="muted">Public news intensity</div>
+        <div class="tval" id="newsVol">--</div>
+      </div>
+
+      <div class="tile">
+        <div class="title">News tone</div>
+        <div class="muted">Negative = higher tension</div>
+        <div class="tval" id="newsTone">--</div>
+      </div>
+
+      <div class="tile">
+        <div class="title">Oil price</div>
+        <div class="muted">Market stress proxy</div>
+        <div class="tval" id="oil">--</div>
+      </div>
+
+      <div class="tile">
+        <div class="title">Oil volatility</div>
+        <div class="muted">7-day volatility</div>
+        <div class="tval" id="oilVol">--</div>
+      </div>
+
+      <div class="tile">
+        <div class="title">Diplomacy</div>
+        <div class="muted">Statements / sanctions</div>
+        <div class="tval" id="diplo">--</div>
+      </div>
+
+      <div class="tile">
+        <div class="title">Travel alerts</div>
+        <div class="muted">Public advisories</div>
+        <div class="tval" id="alerts">--</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="title">Latest headlines (placeholder)</div>
+    <div class="muted">Next upgrade: load real headlines from public sources.</div>
+    <ul class="list" id="headlines">
+      <li>Headline 1 (demo)</li>
+      <li>Headline 2 (demo)</li>
+      <li>Headline 3 (demo)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="muted">
+      <b style="color:rgba(255,255,255,.92)">Disclaimer:</b>
+      This dashboard visualizes public indicators of geopolitical tension. It does not predict, time, or recommend military action.
+    </div>
+  </div>
+
 </div>
 
 <script>
-function random(min,max){
-  return Math.floor(Math.random()*(max-min+1))+min;
-}
+  function clamp(n,a,b){ return Math.max(a, Math.min(b,n)); }
+  function r(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
 
-var score = random(10,90);
-document.getElementById("score").innerHTML = score + "/100";
+  function labelFor(s){
+    if(s<25) return "Low";
+    if(s<50) return "Guarded";
+    if(s<75) return "Elevated";
+    return "High";
+  }
 
-var label = "Low";
-if(score > 25) label = "Guarded";
-if(score > 50) label = "Elevated";
-if(score > 75) label = "High";
+  function regen(){
+    const newsVol = r(30,140);
+    const newsTone = (Math.random()*1.2 - 0.8).toFixed(2);
+    const oil = (70 + Math.random()*25).toFixed(2);
+    const oilVol = (Math.random()*2.5).toFixed(2);
+    const diplo = ["Quiet","Mixed","Busy","Tense"][r(0,3)];
+    const alerts = ["None","Low","Updated","High"][r(0,3)];
 
-document.getElementById("label").innerHTML = label;
-document.getElementById("fill").style.width = score + "%";
+    const toneNeg = clamp((-parseFloat(newsTone)), 0, 1.5);
+    let score = 0;
+    score += clamp((newsVol-30)/(140-30),0,1) * 45;
+    score += clamp(toneNeg/1.5,0,1) * 35;
+    score += clamp(parseFloat(oilVol)/2.5,0,1) * 20;
+    score = Math.round(clamp(score,0,100));
+
+    const lbl = labelFor(score);
+
+    document.getElementById("newsVol").innerText = newsVol;
+    document.getElementById("newsTone").innerText = newsTone;
+    document.getElementById("oil").innerText = "$" + oil;
+    document.getElementById("oilVol").innerText = oilVol;
+    document.getElementById("diplo").innerText = diplo;
+    document.getElementById("alerts").innerText = alerts;
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("label").innerText = lbl;
+    document.getElementById("fill").style.width = score + "%";
+  }
+
+  regen();
 </script>
 
 </body>
